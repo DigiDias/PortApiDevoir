@@ -1,6 +1,8 @@
 const User = require('../models/users');
 const bcrypt = require('bcrypt');   
 const jwt = require('jsonwebtoken');
+const SECRET_KEY = process.env.SECRET_KEY;
+
 
 exports.getUserById = async (req, res) => {
     try {
@@ -28,7 +30,19 @@ exports.add = async (req, res) => {
 exports.update = async (req, res) => {
     const { username, password, email } = req.body;
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, { username, password, email }, { new: true });
+        // Si un nouveau mot de passe est fourni, on le hache
+        let updatedFields = { username, email };
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            updatedFields.password = hashedPassword;
+        }
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            updatedFields,
+            { new: true }
+        );
+
         if (!user) {
             return res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
@@ -37,6 +51,7 @@ exports.update = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 exports.delete = async (req, res) => {
     try {
@@ -65,7 +80,7 @@ exports.authenticate = async (req, res, next) => {
       // Comparer le mot de passe
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
-        return res.status(403).json({ message: "wrong_credentials" });
+        return res.status(403).json({ message: "informations incorrectes" });
       }
   
       // Supprimer le mot de passe de l'objet utilisateur avant de l'envoyer
@@ -79,7 +94,7 @@ exports.authenticate = async (req, res, next) => {
       res.header("Authorization", "Bearer " + token);
   
       // Réponse avec le token JWT
-      return res.status(200).json({ message: "authenticate_succeed", token: token });
+      return res.status(200).json({ message: "authentification réussie", token: token });
   
     } catch (error) {
       console.error("Error authenticating user:", error);  // Ajout de log détaillé
