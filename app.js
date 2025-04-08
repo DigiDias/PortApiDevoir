@@ -8,7 +8,9 @@ const cors = require('cors');
 
 // Importation des routers
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');  // Si tu as une route pour les utilisateurs
+const usersRouter = require('./routes/users');  //  route pour les utilisateurs
+const catwaysRouter = require('./routes/catways');  //  route pour les catways
+const reservationsRouter = require('./routes/reservations');  //  route pour les réservations
 
 const mongodb = require('./db/mongo');
 
@@ -17,7 +19,7 @@ mongodb.initClientDbConnection();
 
 const app = express();
 
-// ✅ Ajout de la configuration du moteur de template EJS
+//  Ajout de la configuration du moteur de template EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -33,6 +35,8 @@ app.use(cookieParser());
 // Définition des routes
 app.use('/', indexRouter);  // Route par défaut
 app.use('/users', usersRouter);  // Route pour les utilisateurs
+app.use('/catways', catwaysRouter);  // Route pour les catways
+app.use('/reservations', reservationsRouter);  // Route pour les réservations
 
 // Middleware de gestion des erreurs 404
 app.use(function(req, res, next) { 
