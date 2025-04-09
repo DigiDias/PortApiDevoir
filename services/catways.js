@@ -25,11 +25,11 @@ exports.add = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
-    const { catwayNumber, catwayType, catwayState } = req.body;
+    const { catwayState } = req.body;
     try {
         const updatedCatway = await catways.findByIdAndUpdate(
             req.params.id,
-            { catwayNumber, catwayType, catwayState },
+            { catwayState },
             { new: true }
         );
         if (!updatedCatway) {

@@ -1,6 +1,4 @@
-require('dotenv').config({ path: './env/.env' });
-
-
+require('dotenv').config({ path: './env/.env' }); // Charger les variables d'environnement
 
 const express = require('express');
 const path = require('path');
@@ -21,10 +19,11 @@ mongodb.initClientDbConnection();
 
 const app = express();
 
-//  Ajout de la configuration du moteur de template EJS
+// Configuration du moteur de template EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));  // Assurez-vous que les vues sont dans le dossier 'views'
 
+// Middleware
 app.use(cors({
     exposedHeaders: ['Authorization'],
     origin: '*'
@@ -34,8 +33,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+// Route pour la page d'accueil
+app.get('/', (req, res) => {
+    res.render('acceuil');  // Rendre le fichier acceuil.ejs (le formulaire de connexion)
+});
+
 // Définition des routes
-app.use('/', indexRouter);  // Route par défaut
 app.use('/users', usersRouter);  // Route pour les utilisateurs
 app.use('/catways', catwaysRouter);  // Route pour les catways
 app.use('/reservations', reservationsRouter);  // Route pour les réservations
