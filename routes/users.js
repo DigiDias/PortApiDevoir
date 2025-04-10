@@ -3,6 +3,8 @@ const router = express.Router();
 
 const service = require('../services/users');
 const private = require('../middlewares/privates');
+const userService = require('../services/loginFromForm');
+
 
 /**
  * @swagger
@@ -136,6 +138,10 @@ router.delete('/:id', private.checkJWT, service.delete);
  */
 router.post('/authenticate', service.authenticate);
 
+// Route pour formulaire HTML
+router.post('/login-form', userService.loginFromForm);
+
+
 /**
  * @swagger
  * /users:
@@ -147,6 +153,11 @@ router.post('/authenticate', service.authenticate);
  *         description: Liste des utilisateurs
  */
 router.get('/', service.getAllUsers);
+
+// Route GET /dashboard
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard'); // 
+});
 
 module.exports = router;
 

@@ -1,3 +1,5 @@
+<!-- views/acceuil.ejs -->
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,13 +11,13 @@
     <h1>Bienvenue sur la page d'accueil du site API PORT DE RUSSEL</h1>
     <p>Cette application sert à connecter une API pour le Port de Russel pour la gestion des users, catways et reservations.</p>
     
-    <form action="/users/authenticate" method="post">
+    <form action="/dashboard" method="post"> <!-- Changer l'action pour /login-form -->
         <label for="email">email :</label>
         <input type="email" id="email" name="email" required>
         <br><br>
         <label for="password">Mot de passe :</label>
         <input type="password" id="password" name="password" required>
         <button type="submit">Accéder au tableau de bord</button>
-    
+    </form>
 </body>
 </html>
