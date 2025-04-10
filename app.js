@@ -21,7 +21,7 @@ const app = express();
 
 // Configuration du moteur de template EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));  // Assurez-vous que les vues sont dans le dossier 'views'
+app.set('views', path.join(__dirname, 'views'));  
 
 // Middleware
 app.use(cors({
@@ -33,10 +33,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// Route pour la page d'accueil
-app.get('/', (req, res) => {
-    res.render('acceuil');  // Rendre le fichier acceuil.ejs (le formulaire de connexion)
-});
+app.use('/', indexRouter); // ✅ Pour que les routes / et /dashboard passent par index.js
+
 
 // Définition des routes
 app.use('/users', usersRouter);  // Route pour les utilisateurs
