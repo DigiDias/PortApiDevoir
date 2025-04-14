@@ -2,21 +2,39 @@ const express = require('express');
 const router = express.Router();    
 
 const service = require('../services/catways');
-const private = require('../middlewares/privates');  // Importer le middleware checkJWT
+const private = require('../middlewares/privates');  // Middleware pour sécuriser certaines routes
 
-// Route pour récupérer un catway par ID (publique, sans JWT)
-router.get('/:id', service.getCatwayById); // Récupérer un catway par ID
 
-// Route pour créer un nouveau catway (publique, sans JWT)
-router.post('/', service.add); // Créer un nouveau catway       
 
-// Route protégée par JWT pour mettre à jour un catway par ID
-router.patch('/:id', private.checkJWT, service.update); // Mettre à jour un catway par ID
+// Affiche tous les catways
+router.get('/', service.getAllCatways);
 
-// Route protégée par JWT pour supprimer un catway par ID
-router.delete('/:id', private.checkJWT, service.delete); // Supprimer un catway par ID
+// Formulaire d'ajout d'un nouveau catway
+router.get('/addCatways', service.showAddForm); 
 
-// Route pour récupérer tous les catways
-router.get('/', service.getAllCatways); // Récupérer tous les catways
+// Ajout via formulaire
+router.post('/addCatways', service.add);
+
+// Formulaire de modification
+router.get('/editCatways/:id', service.showEditForm);
+
+// Mise à jour via formulaire
+router.post('/editCatways/:id', service.update); 
+
+// Suppression via bouton HTML
+router.post('/delete/:id', service.delete);
+
+
+
+// Mise à jour par API (JSON + JWT)
+router.patch('/:id', private.checkJWT, service.update);
+
+// Suppression par API (JSON + JWT)
+router.delete('/:id', private.checkJWT, service.delete);
+
+
+
+// Récupération d'un catway par ID
+router.get('/:id', service.getCatwayById);
 
 module.exports = router;

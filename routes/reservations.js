@@ -1,18 +1,26 @@
 const express = require('express');
 const router = express.Router();
 
-const service = require('../services/reservations');    
-const private = require('../middlewares/privates');  // Importer le middleware checkJWT
+const service = require('../services/reservations');
+const private = require('../middlewares/privates');
 
-// Route pour récupérer une réservation par ID (publique, sans JWT)
-router.get('/:id', service.getReservationById); // Récupérer une réservation par ID 
+// Récupérer toutes les réservations (liste)
+router.get('/', service.getAllReservations);
 
-router.post('/', service.add); // Créer une nouvelle réservation
+// Créer une nouvelle réservation
+router.post('/', service.add);
 
-router.patch('/:id', private.checkJWT, service.update); // Mettre à jour une réservation par ID
+// Récupérer une réservation par ID
+router.get('/:id', service.getReservationById);
 
-router.delete('/:id', private.checkJWT, service.delete); // Supprimer une réservation par ID
+// Afficher le formulaire de modification
+router.get('/edit/:id', service.showUpdateReservationForm);
 
-router.get('/', service.getAllReservations); // Récupérer toutes les réservations
+// Mettre à jour une réservation (nécessite un token JWT)
+router.patch('/:id', private.checkJWT, service.update);
 
+// Route pour supprimer une réservation, en utilisant la méthode DELETE
+router.delete('/delete/:id', service.delete); 
+
+// Cette ligne est ESSENTIELLE
 module.exports = router;

@@ -1,0 +1,80 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Liste des Utilisateur</title>
+  <style>
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    th { background-color: #f2f2f2; }
+  </style>
+</head>
+<body>
+  <h1>Liste des Utilisateurs</h1>
+  <a href="/dashboard">Tableau de Bord</a>
+  <a href="/users/addUsers">Ajouter un Utilisateur</a>
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>email</th>
+        <th>Actions</th>
+
+    
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(res => { %>
+        <tr>
+          <td><%= res.username %></td>
+          <td><%= res.email %></td>
+          <td>
+            <!-- Bouton Modifier -->
+            <a href="/users/editUsers/<%= res._id %>">
+              <button >Modifier</button>
+            </a>
+            
+            <!-- Bouton Supprimer -->
+            <form action="/users/delete/<%= res._id %>" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+              <button type="submit">Supprimer</button>
+            </form>
+
+            
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+
+  <script>
+    document.querySelectorAll('.delete-btn').forEach(button => {
+      button.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const id = button.dataset.id;
+        const row = button.closest('tr');
+  
+        if (confirm("Voulez vous vraiement supprimer l'utilisateur'?")) {
+          try {
+            const response = await fetch(`/users/delete/${id}`, {
+              method: 'POST',
+            });
+  
+            if (response.ok) {
+              row.remove(); // Supprime la ligne du tableau
+            } else {
+              alert("Erreur lors de la suppression.");
+            }
+          } catch (error) {
+            console.error("Erreur fetch :", error);
+            alert("Erreur serveur.");
+          }
+        }
+      });
+    });
+  </script>
+  
+
+</body>
+</html>

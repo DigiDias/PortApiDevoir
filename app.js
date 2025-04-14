@@ -1,5 +1,6 @@
 require('dotenv').config({ path: './env/.env' }); // Charger les variables d'environnement
 
+
 const session = require('express-session'); 
 const express = require('express');
 const path = require('path');
@@ -20,6 +21,9 @@ const mongodb = require('./db/mongo');
 mongodb.initClientDbConnection();
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Configuration du moteur de template EJS
 app.set('view engine', 'ejs');

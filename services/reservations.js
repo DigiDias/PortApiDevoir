@@ -17,7 +17,7 @@ exports.add = async (req, res) => {
     try {
         const reservation = new reservations({ catwayNumber, clientName, boatName, startDate, endDate });
         await reservation.save();
-        res.status(201).json(reservation);
+        res.render('reservations/addReservations', { reservation });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -34,7 +34,7 @@ exports.update = async (req, res) => {
         if (!updatedReservation) {
             return res.status(404).json({ message: 'Réservation non trouvée' });
         }
-        res.status(200).json(updatedReservation);
+        res.render('reservations/editReservation', { reservation: updatedReservation });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -42,6 +42,8 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
     try {
         const reservation = await reservations.findByIdAndDelete(req.params.id);
+        console.log(reservation);  // j'ai ajouté ce log pour voir ce qui est renvoyé
+        console.log(id);
         if (!reservation) {
             return res.status(404).json({ message: 'Réservation non trouvée' });
         }
@@ -54,7 +56,19 @@ exports.delete = async (req, res) => {
 exports.getAllReservations = async (req, res) => {
     try {
         const reservationsList = await reservations.find();
-        res.status(200).json(reservationsList);
+        res.render('reservations/list', { reservations: reservationsList });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
+
+exports.showUpdateReservationForm = async (req, res) => {   
+    try {
+        const reservation = await reservations.findById(req.params.id);
+        if (!reservation) {
+            return res.status(404).json({ message: 'Réservation non trouvée' });
+        }
+        res.render('reservations/editReservation', { reservation });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
