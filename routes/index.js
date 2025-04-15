@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/users');
 const private = require('../middlewares/privates');
+const bcrypt = require('bcryptjs');
 
 // Page d'accueil (acceuil.ejs)
 router.get('/', function(req, res) {
@@ -11,6 +12,8 @@ router.get('/', function(req, res) {
 // Route sécurisée du tableau de bord
 router.get('/dashboard', private.checkJWT, async function(req, res) {
   try {
+    console.log("Token décodé :", req.decoded);
+        console.log("Session userId :", req.session.userId);
     const user = req.decoded.user; // Informations utilisateur extraites du token JWT
     if (!user) {
       return res.redirect('/');
