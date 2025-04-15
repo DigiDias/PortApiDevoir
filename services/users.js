@@ -68,6 +68,7 @@ exports.delete = async (req, res) => {
 exports.authenticate = async (req, res, next) => {
     const { email, password } = req.body;
     console.log('Tentative de connexion pour l\'utilisateur :', email);
+    console.log("Clé secrète utilisée pour générer le token :", SECRET_KEY);
   
     try {
       // Recherche de l'utilisateur par email

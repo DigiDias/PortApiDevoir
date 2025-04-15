@@ -19,6 +19,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
  * @returns {void} - La fonction ne renvoie rien, mais elle affecte l'objet `req` ou renvoie une réponse.
  */
 exports.checkJWT = async (req, res, next) => {
+  console.log("Clé secrète utilisée pour vérifier le token :", SECRET_KEY);
   // Récupérer le token à partir des en-têtes de la requête
   let token = req.headers["x-access-token"] || req.headers["authorization"];
   
