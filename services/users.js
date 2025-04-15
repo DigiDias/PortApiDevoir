@@ -67,19 +67,24 @@ exports.delete = async (req, res) => {
 
 exports.authenticate = async (req, res, next) => {
     const { email, password } = req.body;
+    console.log('Tentative de connexion pour l\'utilisateur :', email);
   
     try {
       // Recherche de l'utilisateur par email
       let user = await User.findOne({ email: email }, "-__v -createdAt -updatedAt");
+     
   
       // Vérifier si l'utilisateur existe
       if (!user) {
         return res.status(404).json({ message: "user_not_found" });
+        
       }
+      console.log('Utilisateur trouvé :', user);
   
       // Comparer le mot de passe
       const isPasswordValid = await bcrypt.compare(password, user.password);
       if (!isPasswordValid) {
+        console.log('Mot de passe incorrect pour l\'utilisateur :', email);
         return res.status(403).json({ message: "informations incorrectes" });
       }
   
