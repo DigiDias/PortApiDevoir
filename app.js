@@ -7,6 +7,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
 
 // Importation des routers
 const indexRouter = require('./routes/index'); // Route d'accueil et tableau de bord

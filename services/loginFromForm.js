@@ -1,6 +1,6 @@
 // services/loginFromForm.js
 const User = require('../models/users');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs'); // Utilisation de bcryptjs
 
 exports.loginFromForm = async (req, res) => {
     const { email, password } = req.body;
@@ -12,7 +12,7 @@ exports.loginFromForm = async (req, res) => {
             return res.render('acceuil', { error: 'Utilisateur non trouvé' });
         }
 
-        const isPasswordValid = await bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password); // Utilisation de bcryptjs pour comparer le mot de passe
         if (!isPasswordValid) {
             return res.render('acceuil', { error: 'Mot de passe incorrect' });
         }
