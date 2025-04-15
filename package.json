@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "env-cmd -f C:/Users/Sammy/Projet/PortApi/PortApiDevoir/env/.env.dev nodemon ./bin/www",
+    "start": "env-cmd -f ./env/.env.dev node ./bin/www",
     "doc": "jsdoc ."
   },
   "dependencies": {
