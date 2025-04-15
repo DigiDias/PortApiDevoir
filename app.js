@@ -54,7 +54,7 @@ app.use('/', indexRouter); // Routes d'accueil et tableau de bord
 app.use('/users', usersRouter);  // Route pour les utilisateurs
 app.use('/catways', catwaysRouter);  // Route pour les catways
 app.use('/reservations', reservationsRouter);  // Route pour les réservations
-app.use('/', loginFormRouter);  // Route pour la connexion par formulaire
+app.use('/login', loginFormRouter);  // Route pour la connexion par formulaire (déplacé sous '/login')
 
 // Middleware de gestion des erreurs 404
 app.use(function(req, res, next) {
