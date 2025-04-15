@@ -1,7 +1,6 @@
 require('dotenv').config({ path: './env/.env' }); // Charger les variables d'environnement
 
-
-const session = require('express-session'); 
+const session = require('express-session');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -9,7 +8,7 @@ const logger = require('morgan');
 const cors = require('cors');
 
 // Importation des routers
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes/index'); // Route d'accueil et tableau de bord
 const usersRouter = require('./routes/users');  // Route pour les utilisateurs
 const catwaysRouter = require('./routes/catways');  // Route pour les catways
 const reservationsRouter = require('./routes/reservations');  // Route pour les réservations
@@ -24,10 +23,9 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 // Configuration du moteur de template EJS
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));  
+app.set('views', path.join(__dirname, 'views'));
 
 // Middleware pour gérer la session
 app.use(session({
@@ -59,8 +57,8 @@ app.use('/reservations', reservationsRouter);  // Route pour les réservations
 app.use('/', loginFormRouter);  // Route pour la connexion par formulaire
 
 // Middleware de gestion des erreurs 404
-app.use(function(req, res, next) { 
+app.use(function(req, res, next) {
     res.status(404).json({name: 'API', version: "1.0", status: 404, message: 'Not Found'});
 });
 
-module.exports = app;
+module.exports = app;  // Exporter l'application Express pour l'utiliser dans d'autres fichiers
