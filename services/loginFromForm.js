@@ -1,7 +1,7 @@
 // services/loginFromForm.js
 
 const User = require('../models/users');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.loginFromForm = async (req, res) => {
     const { email, password } = req.body;
