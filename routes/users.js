@@ -5,6 +5,17 @@ const service = require('../services/users');
 const private = require('../middlewares/privates');
 const userService = require('../services/loginFromForm');
 
+//Routes GET/POST pour le formulaire de connexion
+router.get('/addUsers', (req, res) => {
+    res.render('users/addUsers'); // Rendre la vue addUsers.ejs
+
+});     
+
+// Route GET /dashboard
+router.get('/dashboard', (req, res) => {
+    res.render('dashboard'); // 
+});
+
 
 /**
  * @swagger
@@ -113,7 +124,7 @@ router.patch('/:id', private.checkJWT, service.update);
  *       404:
  *         description: Utilisateur non trouvé
  */
-router.delete('/:id', private.checkJWT, service.delete);
+router.delete('/:id', service.delete);
 
 /**
  * @swagger
@@ -154,10 +165,9 @@ router.post('/login-form', userService.loginFromForm);
  */
 router.get('/', service.getAllUsers);
 
-// Route GET /dashboard
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard'); // 
-});
+
 
 module.exports = router;
+
+
 

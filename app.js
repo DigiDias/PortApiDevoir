@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
+const methodOverride = require('method-override');
 
 // Importation des routers
 const indexRouter = require('./routes/index'); // Route d'accueil et tableau de bord
@@ -38,6 +39,10 @@ const store = new MongoDBStore({
 store.on('error', function(error) {
     console.error("Erreur avec MongoDBStore :", error);
 });
+
+
+// Utilise method-override pour remplacer la méthode POST par DELETE ou PUT
+app.use(methodOverride('_method')); // '_method' correspond au nom du champ caché dans le formulaire
 
 // Middleware pour gérer la session
 app.use(session({

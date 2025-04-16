@@ -3,7 +3,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Liste des Utilisateur</title>
+  <title>Liste des Utilisateurs</title>
   <style>
     table { border-collapse: collapse; width: 100%; }
     th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
@@ -18,10 +18,8 @@
     <thead>
       <tr>
         <th>Nom</th>
-        <th>email</th>
+        <th>Email</th>
         <th>Actions</th>
-
-    
       </tr>
     </thead>
     <tbody>
@@ -32,49 +30,18 @@
           <td>
             <!-- Bouton Modifier -->
             <a href="/users/editUsers/<%= res._id %>">
-              <button >Modifier</button>
+              <button>Modifier</button>
             </a>
             
-            <!-- Bouton Supprimer -->
-            <form action="/users/delete/<%= res._id %>" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+            <!-- Formulaire de Suppression -->
+            <form action="/users/<%= res._id %>" method="POST" onsubmit="return confirm('Confirmer la suppression ?')">
+              <input type="hidden" name="_method" value="DELETE">
               <button type="submit">Supprimer</button>
             </form>
-
-            
-          </td>
         </tr>
       <% }) %>
     </tbody>
   </table>
-
-
-  <script>
-    document.querySelectorAll('.delete-btn').forEach(button => {
-      button.addEventListener('click', async (e) => {
-        e.preventDefault();
-        const id = button.dataset.id;
-        const row = button.closest('tr');
-  
-        if (confirm("Voulez vous vraiement supprimer l'utilisateur'?")) {
-          try {
-            const response = await fetch(`/users/delete/${id}`, {
-              method: 'POST',
-            });
-  
-            if (response.ok) {
-              row.remove(); // Supprime la ligne du tableau
-            } else {
-              alert("Erreur lors de la suppression.");
-            }
-          } catch (error) {
-            console.error("Erreur fetch :", error);
-            alert("Erreur serveur.");
-          }
-        }
-      });
-    });
-  </script>
-  
 
 </body>
 </html>

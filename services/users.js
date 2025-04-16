@@ -113,7 +113,8 @@ exports.authenticate = async (req, res, next) => {
   exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find(); // Récupère tous les utilisateurs
-        res.render('users/listUsers', { users }); // Rends la vue listUsers avec la liste des utilisateurs
+       res.render('users/listUsers', { users }); // Rends la vue listUsers avec la liste des utilisateurs
+       //* res.json(users); // Envoie la liste des utilisateurs en JSON
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }
